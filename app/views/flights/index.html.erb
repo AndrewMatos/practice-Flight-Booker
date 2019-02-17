@@ -1,0 +1,32 @@
+<h1>Search flight</h1>
+
+<%= form_for(@flight ,method: :get, url: flights_path ) do |f| %>
+    
+    Number of passengers:
+    <select name= "passengers">
+    	<option value=1>1</option>
+    	<option value=2>2</option>
+    	<option value=3>3</option>
+    	<option value=4>4</option>
+    </select>
+    From:<%= f.select(:from_airport_id, @airport_options) %>
+    To:<%= f.select(:to_airport_id, @airport_options) %>
+    Date<%= f.select(:start, @flight_options) %>
+    <br>
+    
+	<%= f.submit "Search" %>
+<% end %>
+ <br>
+  <br>
+
+<% if @search.any? %>
+	<%= form_for(@booking, method: :get, url: new_booking_path )do |f|%>
+		<input name="passengers" type="hidden" value="<%= params[:passengers] %>" >
+		<% @search.each do |flight| %>
+			From <%= flight.from_airport.code %> to <%= flight.to_airport.code %>, starts:<%= flight.start %> duration: <%= flight.duration %> <input type="radio" name="flight_id" value="<%= flight.id%>">
+			<br>
+		<% end %>
+	    <br>
+		<%= f.submit "Buy" %>
+	<% end %>
+<% end %>

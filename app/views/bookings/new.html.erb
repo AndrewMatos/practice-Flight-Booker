@@ -1,0 +1,13 @@
+<p> From <%= @flight.from_airport.code %> to <%= @flight.to_airport.code %>, starts:<%= @flight.start %> duration: <%= @flight.duration %> </p>
+
+<%= form_for(@booking) do |f|%>
+  <%= f.hidden_field :flight_id, value: @flight.id %>
+     Passengers:<br> 
+     <%= f.fields_for :passengers do |p| %>
+     	Name: <%= p.text_field :name%> Email: <%= p.text_field :email%>
+        <br>
+     <% end %>
+     <br>
+  
+  <%= f.submit "Buy" %> 
+<% end %>
