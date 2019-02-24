@@ -11,6 +11,9 @@ class BookingsController < ApplicationController
 	def create
 		@booking = Booking.new(booking_params)
 		if @booking.save
+			@booking.passengers.each do |p|
+				PassengerMailer.with(user: p).thanking_email.deliver_now
+			end
 			redirect_to @booking
         else
            redirect_to new_booking_url
